@@ -4,8 +4,31 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { Video } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const [searchForm, setSearchForm] = useState({
+    specialty: '',
+    destination: '',
+    treatment: '',
+    budget: '',
+    search: ''
+  });
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    Object.entries(searchForm).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+    });
+    navigate(`/search?${params.toString()}`);
+  };
+
+  const handleConsultation = () => {
+    navigate('/auth');
+  };
+
   return (
     <section className="relative bg-gradient-to-br from-medical-green via-medical-blue to-medical-green-light min-h-[80vh] flex items-center">
       <div className="absolute inset-0 bg-black/20"></div>
@@ -23,7 +46,7 @@ const HeroSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Medical Specialty</label>
-                <Select>
+                <Select value={searchForm.specialty} onValueChange={(value) => setSearchForm({...searchForm, specialty: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select specialty" />
                   </SelectTrigger>
@@ -39,7 +62,7 @@ const HeroSection = () => {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Destination</label>
-                <Select>
+                <Select value={searchForm.destination} onValueChange={(value) => setSearchForm({...searchForm, destination: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="Any destination" />
                   </SelectTrigger>
@@ -55,7 +78,7 @@ const HeroSection = () => {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Treatment Type</label>
-                <Select>
+                <Select value={searchForm.treatment} onValueChange={(value) => setSearchForm({...searchForm, treatment: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="All treatments" />
                   </SelectTrigger>
@@ -70,7 +93,7 @@ const HeroSection = () => {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Budget Range</label>
-                <Select>
+                <Select value={searchForm.budget} onValueChange={(value) => setSearchForm({...searchForm, budget: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select budget" />
                   </SelectTrigger>
@@ -85,10 +108,19 @@ const HeroSection = () => {
             </div>
             
             <div className="flex flex-col md:flex-row gap-4">
-              <Button size="lg" className="flex-1 bg-medical-green hover:bg-medical-green-dark">
+              <Button 
+                size="lg" 
+                className="flex-1 bg-medical-green hover:bg-medical-green-dark"
+                onClick={handleSearch}
+              >
                 Find Hospitals & Specialists
               </Button>
-              <Button size="lg" variant="outline" className="border-medical-blue text-medical-blue hover:bg-medical-blue hover:text-white">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-medical-blue text-medical-blue hover:bg-medical-blue hover:text-white"
+                onClick={handleConsultation}
+              >
                 <Video className="w-5 h-5 mr-2" />
                 Start Free Consultation
               </Button>

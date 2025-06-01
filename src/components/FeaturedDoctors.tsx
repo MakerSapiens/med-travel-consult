@@ -13,7 +13,12 @@ const FeaturedDoctors = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('doctors')
-        .select('*')
+        .select(`
+          *,
+          hospitals (
+            name
+          )
+        `)
         .limit(6);
       
       if (error) throw error;
@@ -28,7 +33,7 @@ const FeaturedDoctors = () => {
       first_name: 'Dr. Shruti',
       last_name: '',
       specialty: 'Gynaecologist',
-      hospital: 'International Women\'s Hospital',
+      hospitals: { name: 'International Women\'s Hospital' },
       bio: 'Experienced gynaecologist specializing in women\'s reproductive health and minimally invasive procedures.',
       avatar_url: '/lovable-uploads/0e69e9c2-41dc-4d19-b381-04ed3250e232.png',
       consultation_fee: 180
@@ -38,7 +43,7 @@ const FeaturedDoctors = () => {
       first_name: 'Dr. Aniket',
       last_name: '',
       specialty: 'General Surgeon',
-      hospital: 'Advanced Surgical Center',
+      hospitals: { name: 'Advanced Surgical Center' },
       bio: 'Skilled general surgeon with expertise in laparoscopic surgery and emergency procedures.',
       avatar_url: '/lovable-uploads/dc259089-4bf2-49a7-ae7c-2e28a5e342fb.png',
       consultation_fee: 200
@@ -119,7 +124,7 @@ const FeaturedDoctors = () => {
                   {doctor.specialty}
                 </p>
                 <p className="text-sm text-gray-600 mb-3">
-                  {doctor.hospital || 'International Hospital'}
+                  {doctor.hospitals?.name || 'International Hospital'}
                 </p>
                 
                 <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
@@ -137,7 +142,7 @@ const FeaturedDoctors = () => {
                 </div>
                 
                 <p className="text-xs text-medical-green font-medium mb-4">
-                  ${'consultation_fee' in doctor ? doctor.consultation_fee : 150}/consultation
+                  ${doctor.consultation_fee || 150}/consultation
                 </p>
                 
                 <div className="flex gap-2">

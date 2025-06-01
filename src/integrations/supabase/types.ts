@@ -87,9 +87,11 @@ export type Database = {
         Row: {
           avatar_url: string | null
           bio: string | null
+          consultation_fee: number | null
           created_at: string
           first_name: string
           hospital: string | null
+          hospital_id: string | null
           id: string
           last_name: string
           specialty: string
@@ -99,9 +101,11 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           bio?: string | null
+          consultation_fee?: number | null
           created_at?: string
           first_name: string
           hospital?: string | null
+          hospital_id?: string | null
           id?: string
           last_name: string
           specialty: string
@@ -111,14 +115,66 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           bio?: string | null
+          consultation_fee?: number | null
           created_at?: string
           first_name?: string
           hospital?: string | null
+          hospital_id?: string | null
           id?: string
           last_name?: string
           specialty?: string
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "doctors_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hospitals: {
+        Row: {
+          contact_info: Json | null
+          country: string
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          location: string
+          name: string
+          pricing_info: Json | null
+          services: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          contact_info?: Json | null
+          country: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          location: string
+          name: string
+          pricing_info?: Json | null
+          services?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          contact_info?: Json | null
+          country?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          location?: string
+          name?: string
+          pricing_info?: Json | null
+          services?: string[] | null
+          updated_at?: string | null
         }
         Relationships: []
       }
