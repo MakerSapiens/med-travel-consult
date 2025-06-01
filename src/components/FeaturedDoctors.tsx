@@ -13,13 +13,7 @@ const FeaturedDoctors = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('doctors')
-        .select(`
-          *,
-          hospitals (
-            name,
-            country
-          )
-        `)
+        .select('*')
         .limit(4);
       
       if (error) throw error;
@@ -79,7 +73,7 @@ const FeaturedDoctors = () => {
                 />
                 <div className="absolute top-4 left-4">
                   <Badge className="bg-medical-green text-white">
-                    {doctor.hospitals?.country || 'International'}
+                    International
                   </Badge>
                 </div>
                 <div className="absolute top-4 right-4">
@@ -98,7 +92,7 @@ const FeaturedDoctors = () => {
                   {doctor.specialty}
                 </p>
                 <p className="text-sm text-gray-600 mb-3">
-                  {doctor.hospitals?.name || 'International Hospital'}
+                  {doctor.hospital || 'International Hospital'}
                 </p>
                 
                 <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
@@ -116,7 +110,7 @@ const FeaturedDoctors = () => {
                 </div>
                 
                 <p className="text-xs text-medical-green font-medium mb-4">
-                  ${doctor.consultation_fee || 150}/consultation
+                  $150/consultation
                 </p>
                 
                 <div className="flex gap-2">

@@ -22,14 +22,7 @@ const DoctorDetail = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('doctors')
-        .select(`
-          *,
-          hospitals (
-            name,
-            location,
-            country
-          )
-        `)
+        .select('*')
         .eq('id', id)
         .single();
       if (error) throw error;
@@ -104,19 +97,17 @@ const DoctorDetail = () => {
                     {doctor.first_name} {doctor.last_name}
                   </h1>
                   <p className="text-xl text-medical-blue font-medium mb-2">{doctor.specialty}</p>
-                  {doctor.hospitals && (
-                    <div className="flex items-center text-gray-600 mb-2">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      <span>{doctor.hospitals.name}, {doctor.hospitals.location}</span>
-                    </div>
-                  )}
+                  <div className="flex items-center text-gray-600 mb-2">
+                    <MapPin className="w-4 h-4 mr-2" />
+                    <span>{doctor.hospital || 'International Hospital'}</span>
+                  </div>
                   <div className="flex items-center mb-4">
                     <div className="flex items-center mr-4">
                       <Star className="w-4 h-4 text-yellow-500 fill-current mr-1" />
                       <span className="text-sm">4.9 (150+ reviews)</span>
                     </div>
                     <Badge className="bg-medical-green text-white">
-                      ${doctor.consultation_fee}/consultation
+                      $150/consultation
                     </Badge>
                   </div>
                 </div>
