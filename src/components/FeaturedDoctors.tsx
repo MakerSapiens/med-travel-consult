@@ -137,7 +137,7 @@ const FeaturedDoctors = () => {
                 </div>
                 
                 <p className="text-xs text-medical-green font-medium mb-4">
-                  ${doctor.consultation_fee || 150}/consultation
+                  ${'consultation_fee' in doctor ? doctor.consultation_fee : 150}/consultation
                 </p>
                 
                 <div className="flex gap-2">
