@@ -14,12 +14,39 @@ const FeaturedDoctors = () => {
       const { data, error } = await supabase
         .from('doctors')
         .select('*')
-        .limit(4);
+        .limit(6);
       
       if (error) throw error;
       return data;
     },
   });
+
+  // Add the two new doctors at the beginning
+  const featuredDoctors = [
+    {
+      id: 'dr-shruti',
+      first_name: 'Dr. Shruti',
+      last_name: '',
+      specialty: 'Gynaecologist',
+      hospital: 'International Women\'s Hospital',
+      bio: 'Experienced gynaecologist specializing in women\'s reproductive health and minimally invasive procedures.',
+      avatar_url: '/lovable-uploads/0e69e9c2-41dc-4d19-b381-04ed3250e232.png',
+      consultation_fee: 180
+    },
+    {
+      id: 'dr-aniket',
+      first_name: 'Dr. Aniket',
+      last_name: '',
+      specialty: 'General Surgeon',
+      hospital: 'Advanced Surgical Center',
+      bio: 'Skilled general surgeon with expertise in laparoscopic surgery and emergency procedures.',
+      avatar_url: '/lovable-uploads/dc259089-4bf2-49a7-ae7c-2e28a5e342fb.png',
+      consultation_fee: 200
+    }
+  ];
+
+  // Combine with existing doctors from database
+  const allDoctors = [...featuredDoctors, ...(doctors || [])].slice(0, 6);
 
   if (isLoading) {
     return (
@@ -33,8 +60,8 @@ const FeaturedDoctors = () => {
               Connect with world-renowned specialists who have helped thousands of international patients
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className="animate-pulse">
                 <div className="bg-gray-200 h-48 rounded-t-lg"></div>
                 <div className="bg-gray-100 p-6 rounded-b-lg">
@@ -62,8 +89,8 @@ const FeaturedDoctors = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {doctors?.map((doctor) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {allDoctors?.map((doctor) => (
             <Card key={doctor.id} className="overflow-hidden hover-scale">
               <div className="relative">
                 <img
@@ -110,7 +137,7 @@ const FeaturedDoctors = () => {
                 </div>
                 
                 <p className="text-xs text-medical-green font-medium mb-4">
-                  $150/consultation
+                  ${doctor.consultation_fee || 150}/consultation
                 </p>
                 
                 <div className="flex gap-2">
