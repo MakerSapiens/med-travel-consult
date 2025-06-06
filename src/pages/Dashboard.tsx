@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -25,12 +24,12 @@ const Dashboard = () => {
         .from('appointments')
         .select(`
           *,
-          doctors!inner (
+          doctors:doctor_id (
             first_name,
             last_name,
             specialty,
             avatar_url,
-            hospitals (
+            hospitals:hospital_id (
               name,
               location
             )
@@ -39,7 +38,10 @@ const Dashboard = () => {
         .eq('user_id', user.id)
         .order('appointment_date', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching appointments:', error);
+        throw error;
+      }
       return data;
     },
     enabled: !!user?.id,
