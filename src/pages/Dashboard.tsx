@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import Header from '@/components/Header';
+import { JoinCallButton } from '@/components/JoinCallButton';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -219,10 +220,7 @@ const Dashboard = () => {
                           </div>
                           
                           <div className="flex gap-2">
-                            <Button size="sm" variant="outline">
-                              <Video className="w-4 h-4 mr-1" />
-                              Join Call
-                            </Button>
+                            <JoinCallButton appointment={appointment} />
                             <Button size="sm" variant="outline">
                               Reschedule
                             </Button>
