@@ -25,7 +25,7 @@ const Dashboard = () => {
         .from('appointments')
         .select(`
           *,
-          doctors (
+          doctors!inner (
             first_name,
             last_name,
             specialty,
