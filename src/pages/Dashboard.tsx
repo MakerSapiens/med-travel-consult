@@ -24,12 +24,12 @@ const Dashboard = () => {
         .from('appointments')
         .select(`
           *,
-          doctors (
+          doctors!appointments_doctor_id_fkey (
             first_name,
             last_name,
             specialty,
             avatar_url,
-            hospitals (
+            hospitals!doctors_hospital_id_fkey (
               name,
               location
             )
