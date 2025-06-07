@@ -1,18 +1,21 @@
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, XCircle, Clock } from 'lucide-react';
 
 export default function GoogleCallback() {
-  const router = useRouter();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('Setting up your meeting...');
 
   useEffect(() => {
     const handleCallback = async () => {
-      const { code, state, error } = router.query;
+      const code = searchParams.get('code');
+      const state = searchParams.get('state');
+      const error = searchParams.get('error');
       
       if (error) {
         setStatus('error');
@@ -56,7 +59,7 @@ export default function GoogleCallback() {
           
           // Redirect after a short delay
           setTimeout(() => {
-            router.push('/dashboard');
+            navigate('/dashboard');
           }, 2000);
         } else {
           throw new Error(meetData.error || 'Failed to create meeting');
@@ -69,10 +72,8 @@ export default function GoogleCallback() {
       }
     };
 
-    if (router.isReady) {
-      handleCallback();
-    }
-  }, [router.query, router.isReady]);
+    handleCallback();
+  }, [searchParams, navigate]);
 
   const getIcon = () => {
     switch (status) {
@@ -100,7 +101,7 @@ export default function GoogleCallback() {
           <p className="text-gray-600 mb-4">{message}</p>
           
           {status === 'error' && (
-            <Button onClick={() => router.push('/dashboard')}>
+            <Button onClick={() => navigate('/dashboard')}>
               Return to Dashboard
             </Button>
           )}
