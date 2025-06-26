@@ -147,6 +147,53 @@ export type Database = {
           },
         ]
       }
+      doctor_credentials: {
+        Row: {
+          created_at: string
+          credential_name: string
+          credential_type: string
+          doctor_id: string
+          document_url: string | null
+          id: string
+          institution: string
+          updated_at: string
+          verified: boolean | null
+          year_obtained: number | null
+        }
+        Insert: {
+          created_at?: string
+          credential_name: string
+          credential_type: string
+          doctor_id: string
+          document_url?: string | null
+          id?: string
+          institution: string
+          updated_at?: string
+          verified?: boolean | null
+          year_obtained?: number | null
+        }
+        Update: {
+          created_at?: string
+          credential_name?: string
+          credential_type?: string
+          doctor_id?: string
+          document_url?: string | null
+          id?: string
+          institution?: string
+          updated_at?: string
+          verified?: boolean | null
+          year_obtained?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "doctor_credentials_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       doctors: {
         Row: {
           avatar_url: string | null
@@ -159,6 +206,7 @@ export type Database = {
           id: string
           last_name: string
           specialty: string
+          status: string | null
           updated_at: string
           user_id: string | null
         }
@@ -173,6 +221,7 @@ export type Database = {
           id?: string
           last_name: string
           specialty: string
+          status?: string | null
           updated_at?: string
           user_id?: string | null
         }
@@ -187,6 +236,7 @@ export type Database = {
           id?: string
           last_name?: string
           specialty?: string
+          status?: string | null
           updated_at?: string
           user_id?: string | null
         }

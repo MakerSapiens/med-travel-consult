@@ -14,6 +14,8 @@ import HospitalDetail from "./pages/HospitalDetail";
 import SearchResults from "./pages/SearchResults";
 import Dashboard from "./pages/Dashboard";
 import ConsultationBooking from "./pages/ConsultationBooking";
+import DoctorDashboard from "./pages/DoctorDashboard";
+import DoctorRegistration from "./pages/DoctorRegistration";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +38,8 @@ const App = () => {
                 <Route path="/hospital/:id" element={<HospitalDetail />} />
                 <Route path="/search" element={<SearchResults />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+                <Route path="/doctor-registration" element={<DoctorRegistration />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </AuthProvider>
