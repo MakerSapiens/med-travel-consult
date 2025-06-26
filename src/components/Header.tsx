@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User, Calendar } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
@@ -20,31 +20,30 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-medical-green text-white p-2 rounded-lg">
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zM9 9V6h2v3h3v2h-3v3H9v-3H6V9h3z" clipRule="evenodd" />
-              </svg>
+            <div className="bg-gradient-to-r from-teal-600 to-blue-700 text-white p-2 rounded-lg">
+              <span className="text-sm sm:text-base font-bold">2O</span>
             </div>
-            <span className="text-xl font-bold text-gray-800">MedTravel</span>
+            <span className="text-lg sm:text-xl font-bold text-gray-800">2nd Opinion</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/#doctors" className="text-gray-600 hover:text-medical-green transition-colors">
+          <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <Link to="/#doctors" className="text-sm text-gray-600 hover:text-teal-600 transition-colors">
               Find Doctors
             </Link>
-            <Link to="/#destinations" className="text-gray-600 hover:text-medical-green transition-colors">
+            <Link to="/#destinations" className="text-sm text-gray-600 hover:text-teal-600 transition-colors">
               Destinations
             </Link>
-            <Link to="/search" className="text-gray-600 hover:text-medical-green transition-colors">
+            <Link to="/search" className="text-sm text-gray-600 hover:text-teal-600 transition-colors">
               Search
             </Link>
             <Button 
               onClick={handleAuthClick}
-              className="bg-medical-green hover:bg-medical-green-dark"
+              className="bg-gradient-to-r from-teal-600 to-blue-700 hover:from-teal-700 hover:to-blue-800 text-sm px-4 py-2"
+              size="sm"
             >
               {user ? (
                 <>
@@ -59,38 +58,39 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
+            className="md:hidden p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
           >
             {isMenuOpen ? (
-              <X className="w-6 h-6 text-gray-600" />
+              <X className="w-5 h-5 text-gray-600" />
             ) : (
-              <Menu className="w-6 h-6 text-gray-600" />
+              <Menu className="w-5 h-5 text-gray-600" />
             )}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t">
-            <nav className="flex flex-col space-y-4">
+          <div className="md:hidden py-4 border-t border-gray-100">
+            <nav className="flex flex-col space-y-3">
               <Link 
                 to="/#doctors" 
-                className="text-gray-600 hover:text-medical-green transition-colors"
+                className="text-sm text-gray-600 hover:text-teal-600 transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Find Doctors
               </Link>
               <Link 
                 to="/#destinations" 
-                className="text-gray-600 hover:text-medical-green transition-colors"
+                className="text-sm text-gray-600 hover:text-teal-600 transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Destinations
               </Link>
               <Link 
                 to="/search" 
-                className="text-gray-600 hover:text-medical-green transition-colors"
+                className="text-sm text-gray-600 hover:text-teal-600 transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Search
@@ -100,7 +100,8 @@ const Header = () => {
                   handleAuthClick();
                   setIsMenuOpen(false);
                 }}
-                className="bg-medical-green hover:bg-medical-green-dark w-full"
+                className="bg-gradient-to-r from-teal-600 to-blue-700 hover:from-teal-700 hover:to-blue-800 w-full text-sm mt-2"
+                size="sm"
               >
                 {user ? (
                   <>

@@ -39,8 +39,8 @@ const HeroSection = () => {
         }}></div>
       </div>
       
-      {/* Floating Notification Cards - Aneta Inspired */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Floating Notification Cards - Hidden on mobile for better performance */}
+      <div className="absolute inset-0 pointer-events-none hidden lg:block">
         {/* Top Left Card */}
         <div className="absolute top-20 left-8 animate-float-slow">
           <Card className="bg-white/95 backdrop-blur-sm p-4 shadow-lg max-w-xs">
@@ -106,15 +106,15 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10 flex items-center min-h-screen">
-        <div className="max-w-6xl mx-auto text-center text-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex items-center min-h-screen">
+        <div className="max-w-6xl mx-auto text-center text-white w-full">
           {/* Main Hero Content */}
-          <div className="mb-12">
-            <div className="inline-block bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-              <span className="text-sm font-medium">🏥 Proudly Trusted by Medical Professionals Worldwide</span>
+          <div className="mb-8 sm:mb-12">
+            <div className="inline-block bg-white/10 backdrop-blur-sm rounded-full px-3 sm:px-4 py-2 mb-4 sm:mb-6">
+              <span className="text-xs sm:text-sm font-medium">🏥 Proudly Trusted by Medical Professionals Worldwide</span>
             </div>
             
-            <h1 className="text-6xl md:text-7xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
               Get Your Professional
               <br />
               <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent font-serif italic">
@@ -122,26 +122,26 @@ const HeroSection = () => {
               </span>
             </h1>
             
-            <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 opacity-90 max-w-3xl mx-auto leading-relaxed px-4">
               Connect instantly with world-renowned specialists through secure video consultations. 
               Get expert medical opinions from the comfort of your home.
             </p>
 
             {/* Primary CTA - Video Consultation */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4">
               <Button 
                 size="lg" 
-                className="bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-semibold px-8 py-4 text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+                className="bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-semibold px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 w-full sm:w-auto"
                 onClick={handleConsultation}
               >
-                <Video className="w-6 h-6 mr-3" />
+                <Video className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
                 Start Video Consultation Now
               </Button>
               
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm px-8 py-4 text-lg"
+                className="border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
                 onClick={handleSearch}
               >
                 Browse Specialists
@@ -149,38 +149,38 @@ const HeroSection = () => {
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex flex-wrap justify-center items-center gap-8 mb-12 opacity-80">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 mb-8 sm:mb-12 opacity-80 px-4">
               <div className="text-center">
-                <div className="text-3xl font-bold">500+</div>
-                <div className="text-sm">Expert Doctors</div>
+                <div className="text-2xl sm:text-3xl font-bold">500+</div>
+                <div className="text-xs sm:text-sm">Expert Doctors</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold">50+</div>
-                <div className="text-sm">Countries</div>
+                <div className="text-2xl sm:text-3xl font-bold">50+</div>
+                <div className="text-xs sm:text-sm">Countries</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold">10k+</div>
-                <div className="text-sm">Second Opinions</div>
+                <div className="text-2xl sm:text-3xl font-bold">10k+</div>
+                <div className="text-xs sm:text-sm">Second Opinions</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold">24/7</div>
-                <div className="text-sm">Available</div>
+                <div className="text-2xl sm:text-3xl font-bold">24/7</div>
+                <div className="text-xs sm:text-sm">Available</div>
               </div>
             </div>
           </div>
 
           {/* Enhanced Search Card */}
-          <Card className="bg-white/95 backdrop-blur-sm p-8 shadow-2xl max-w-4xl mx-auto">
-            <div className="mb-6">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Find Your Specialist</h3>
-              <p className="text-gray-600">Search by specialty, location, or treatment type</p>
+          <Card className="bg-white/95 backdrop-blur-sm p-4 sm:p-6 lg:p-8 shadow-2xl max-w-4xl mx-auto">
+            <div className="mb-4 sm:mb-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Find Your Specialist</h3>
+              <p className="text-sm sm:text-base text-gray-600">Search by specialty, location, or treatment type</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Medical Specialty</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Medical Specialty</label>
                 <Select value={searchForm.specialty} onValueChange={(value) => setSearchForm({...searchForm, specialty: value})}>
-                  <SelectTrigger className="h-12">
+                  <SelectTrigger className="h-10 sm:h-12 text-sm">
                     <SelectValue placeholder="Select specialty" />
                   </SelectTrigger>
                   <SelectContent>
@@ -194,9 +194,9 @@ const HeroSection = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Destination</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Destination</label>
                 <Select value={searchForm.destination} onValueChange={(value) => setSearchForm({...searchForm, destination: value})}>
-                  <SelectTrigger className="h-12">
+                  <SelectTrigger className="h-10 sm:h-12 text-sm">
                     <SelectValue placeholder="Any destination" />
                   </SelectTrigger>
                   <SelectContent>
@@ -210,9 +210,9 @@ const HeroSection = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Treatment Type</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Treatment Type</label>
                 <Select value={searchForm.treatment} onValueChange={(value) => setSearchForm({...searchForm, treatment: value})}>
-                  <SelectTrigger className="h-12">
+                  <SelectTrigger className="h-10 sm:h-12 text-sm">
                     <SelectValue placeholder="All treatments" />
                   </SelectTrigger>
                   <SelectContent>
@@ -225,9 +225,9 @@ const HeroSection = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Budget Range</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Budget Range</label>
                 <Select value={searchForm.budget} onValueChange={(value) => setSearchForm({...searchForm, budget: value})}>
-                  <SelectTrigger className="h-12">
+                  <SelectTrigger className="h-10 sm:h-12 text-sm">
                     <SelectValue placeholder="Select budget" />
                   </SelectTrigger>
                   <SelectContent>
@@ -242,7 +242,7 @@ const HeroSection = () => {
             
             <Button 
               size="lg" 
-              className="w-full bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 text-white font-semibold py-4 text-lg"
+              className="w-full bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 text-white font-semibold py-3 sm:py-4 text-base sm:text-lg"
               onClick={handleSearch}
             >
               Search Medical Specialists
