@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import DoctorDetail from "./pages/DoctorDetail";
 import HospitalDetail from "./pages/HospitalDetail";
 import SearchResults from "./pages/SearchResults";
@@ -28,6 +29,7 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/doctor/:id" element={<DoctorDetail />} />
                 <Route path="/hospital/:id" element={<HospitalDetail />} />
                 <Route path="/search" element={<SearchResults />} />
