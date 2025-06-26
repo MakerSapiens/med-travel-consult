@@ -16,6 +16,7 @@ export type Database = {
           created_at: string
           doctor_id: string
           id: string
+          meet_link: string | null
           notes: string | null
           status: string
           updated_at: string
@@ -27,6 +28,7 @@ export type Database = {
           created_at?: string
           doctor_id: string
           id?: string
+          meet_link?: string | null
           notes?: string | null
           status?: string
           updated_at?: string
@@ -38,6 +40,7 @@ export type Database = {
           created_at?: string
           doctor_id?: string
           id?: string
+          meet_link?: string | null
           notes?: string | null
           status?: string
           updated_at?: string
@@ -46,6 +49,59 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "appointments_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      consultation_requests: {
+        Row: {
+          created_at: string
+          description: string | null
+          doctor_id: string | null
+          id: string
+          meet_link: string
+          preferred_date: string
+          preferred_time_end: string
+          preferred_time_start: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          doctor_id?: string | null
+          id?: string
+          meet_link: string
+          preferred_date: string
+          preferred_time_end: string
+          preferred_time_start: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          doctor_id?: string | null
+          id?: string
+          meet_link?: string
+          preferred_date?: string
+          preferred_time_end?: string
+          preferred_time_start?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consultation_requests_doctor_id_fkey"
             columns: ["doctor_id"]
             isOneToOne: false
             referencedRelation: "doctors"

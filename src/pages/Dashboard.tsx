@@ -9,7 +9,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar, Clock, User, FileText, Settings, Video } from 'lucide-react';
+import { Calendar, Clock, User, FileText, Settings, Video, MessageSquare } from 'lucide-react';
 import { format } from 'date-fns';
 
 const Dashboard = () => {
@@ -48,6 +48,34 @@ const Dashboard = () => {
     enabled: !!user?.id,
   });
 
+  const { data: consultationRequests, isLoading: consultationRequestsLoading } = useQuery({
+    queryKey: ['user-consultation-requests', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return [];
+      
+      const { data, error } = await supabase
+        .from('consultation_requests')
+        .select(`
+          *,
+          doctors (
+            first_name,
+            last_name,
+            specialty,
+            avatar_url
+          )
+        `)
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching consultation requests:', error);
+        throw error;
+      }
+      return data;
+    },
+    enabled: !!user?.id,
+  });
+
   const { data: profile } = useQuery({
     queryKey: ['user-profile', user?.id],
     queryFn: async () => {
@@ -72,6 +100,9 @@ const Dashboard = () => {
   const pastAppointments = appointments?.filter(apt => 
     new Date(apt.appointment_date) <= new Date() || apt.status === 'completed'
   ) || [];
+
+  const pendingRequests = consultationRequests?.filter(req => req.status === 'pending') || [];
+  const acceptedRequests = consultationRequests?.filter(req => req.status === 'accepted') || [];
 
   const handleSignOut = async () => {
     await signOut();
@@ -130,10 +161,10 @@ const Dashboard = () => {
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center">
-                <User className="w-8 h-8 text-medical-green-light mr-4" />
+                <MessageSquare className="w-8 h-8 text-orange-500 mr-4" />
                 <div>
-                  <p className="text-2xl font-bold text-gray-800">{appointments?.length || 0}</p>
-                  <p className="text-sm text-gray-600">Total Visits</p>
+                  <p className="text-2xl font-bold text-gray-800">{pendingRequests.length}</p>
+                  <p className="text-sm text-gray-600">Pending Requests</p>
                 </div>
               </div>
             </CardContent>
@@ -153,8 +184,9 @@ const Dashboard = () => {
         </div>
 
         <Tabs defaultValue="upcoming" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="upcoming">Upcoming Appointments</TabsTrigger>
+            <TabsTrigger value="requests">Consultation Requests</TabsTrigger>
             <TabsTrigger value="past">Past Appointments</TabsTrigger>
             <TabsTrigger value="profile">Profile Settings</TabsTrigger>
           </TabsList>
@@ -228,6 +260,87 @@ const Dashboard = () => {
                         </div>
                       </div>
                     </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </TabsContent>
+
+          <TabsContent value="requests" className="space-y-4">
+            {consultationRequestsLoading ? (
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="animate-pulse bg-gray-200 h-32 rounded-lg"></div>
+                ))}
+              </div>
+            ) : consultationRequests?.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <MessageSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-800 mb-2">No consultation requests</h3>
+                  <p className="text-gray-600 mb-4">Create your first consultation request</p>
+                  <Button 
+                    onClick={() => navigate('/consultation-booking')}
+                    className="bg-teal-600 hover:bg-teal-700"
+                  >
+                    <Video className="w-4 h-4 mr-2" />
+                    Request Consultation
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : (
+              consultationRequests?.map((request) => (
+                <Card key={request.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="font-bold text-lg">{request.title}</h3>
+                        {request.description && (
+                          <p className="text-gray-600 mt-1">{request.description}</p>
+                        )}
+                      </div>
+                      <Badge 
+                        className={
+                          request.status === 'pending' 
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : request.status === 'accepted'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                        }
+                      >
+                        {request.status}
+                      </Badge>
+                    </div>
+                    
+                    <div className="space-y-2 text-sm text-gray-600">
+                      <div className="flex items-center">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        <span>
+                          Preferred: {format(new Date(request.preferred_date), 'PPP')} 
+                          {' '}from {request.preferred_time_start} to {request.preferred_time_end}
+                        </span>
+                      </div>
+                      <div className="flex items-center">
+                        <Video className="w-4 h-4 mr-2" />
+                        <span>Meeting Link: {request.meet_link}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="w-4 h-4 mr-2" />
+                        <span>Created: {format(new Date(request.created_at), 'PPp')}</span>
+                      </div>
+                    </div>
+
+                    {request.status === 'accepted' && (
+                      <div className="mt-4 pt-4 border-t">
+                        <Button 
+                          onClick={() => window.open(request.meet_link, '_blank')}
+                          className="bg-green-600 hover:bg-green-700"
+                        >
+                          <Video className="w-4 h-4 mr-2" />
+                          Join Meeting
+                        </Button>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               ))
