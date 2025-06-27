@@ -42,7 +42,7 @@ const DoctorDashboard = () => {
         .from('consultation_requests')
         .select(`
           *,
-          profiles!consultation_requests_user_id_fkey (
+          profiles!inner(
             first_name,
             last_name
           )
